@@ -68,9 +68,22 @@ app.use(messageRoutes)
 // passed any error messages from them
 app.use(errorHandler)
 
+app.set('port', port)
 // run API on designated port (4741 in this case)
-app.listen(port, () => {
-  console.log('listening on port ' + port)
+const server = app.listen(port)
+
+const io = require('socket.io').listen(server)
+io.on('connection', function (socket) {
+  console.log('a user connected')
+  socket.on('disconnect', function () {
+    console.log('user disconnected')
+  })
+  socket.on('chat message', function (msg) {
+    console.log('message: ' + msg)
+  })
+  socket.on('chat message', function (msg) {
+    io.emit('chat message', msg)
+  })
 })
 
 // needed for testing
