@@ -31,6 +31,7 @@ const router = express.Router()
 // GET /examples
 router.get('/messages', requireToken, (req, res, next) => {
   Message.find()
+    .populate('owner')
     .then(messages => {
       // `messages` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -63,6 +64,7 @@ router.post('/messages', requireToken, (req, res, next) => {
 
   Message.create(req.body.message)
     // respond to succesful `create` with status 201 and JSON of new "message"
+    .then(message => Message.findById(message._id).populate('owner'))
     .then(message => {
       res.status(201).json({ message: message.toObject() })
     })
