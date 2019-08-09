@@ -84,6 +84,9 @@ io.on('connection', function (socket) {
   socket.on('chat message', function (msg) {
     io.emit('chat message', msg)
   })
+  socket.on('delete message', function (msgArray) {
+    io.emit('delete message', msgArray)
+  })
 })
 
 // needed for testing
