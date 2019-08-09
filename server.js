@@ -7,7 +7,6 @@ const cors = require('cors')
 // require route files
 const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
-const messageRoutes = require('./app/routes/message_routes')
 
 // require error handling middleware
 const errorHandler = require('./lib/error_handler')
@@ -61,14 +60,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // register route files
 app.use(exampleRoutes)
 app.use(userRoutes)
-app.use(messageRoutes)
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
 // passed any error messages from them
 app.use(errorHandler)
 
-app.set('port', port)
 // run API on designated port (4741 in this case)
 const server = app.listen(port)
 
